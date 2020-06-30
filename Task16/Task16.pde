@@ -37,22 +37,21 @@ void draw() {
   }
 }
 
-public static ArrayList<double[]> getProjection(double mu, double sigma, int years, int initialValue, int monthlyValue, double[] breaks) {
-  double periodizedMu = mu / 12;
-  double periodizedSigma = sigma / Math.sqrt(12);
+float[][] getProjection(float mu, float sigma, int years, int initialValue, int monthlyValue, float[] breaks) {
+  float periodizedMu = mu / 12;
+  float periodizedSigma = sigma / Math.sqrt(12);
   int periods = years * 12;
  
-  ArrayList<double[]> result = new ArrayList<double[]>();
+  float[][] result = {};
  
   for (int i = 0; i < periods; i++) {
-     double value = initialValue + (monthlyValue * i);
+     float value = initialValue + (monthlyValue * i);
      NormalDistribution normalDistribution = new NormalDistribution(periodizedMu * (i + 1), periodizedSigma * sqrt(i + 1));
-     double bounds[] = new double[breaks.length];
+     float bounds[] = new float[breaks.length];
      for (int j = 0; j < breaks.length; j++) {
         float normInv = normalDistribution.inverseCumulativeProbability(breaks[j]);
         bounds[j] = value * exp(normInv);
      }
- 
      result.add(bounds);
   }
   return result;
